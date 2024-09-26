@@ -49,10 +49,10 @@ export default function Home() {
                 placeholder="https://your.app.com/about"
                 className="px-4 pr-24 w-full h-[50px] border border-[#E5E5E5] rounded-full placeholder-[#A3A3A3] placeholder:font-medium truncate"
               />
-              <button className="flex items-center px-4 h-10 absolute right-1 bg-[#EAEAEA] text-[#777777] font-semibold rounded-full top-1/2 transform -translate-y-1/2">
+              <button className="flex items-center px-4 h-10 absolute right-[6px] bg-[#EAEAEA] text-[#777777] font-semibold rounded-full top-1/2 transform -translate-y-1/2">
                 Create
               </button>
-              <Image className="absolute -right-6 -top-4 hidden md:block" src={HighlightScribble} alt="scribble" />
+              <Image className="absolute -right-5 -top-[18px] hidden md:block" src={HighlightScribble} alt="scribble" />
             </form>
             <div className="flex flex-col md:flex-row gap-4 mb-4">
               <div className="flex flex-col w-full p-4 rounded-3xl bg-[#F7F7F7] relative">
