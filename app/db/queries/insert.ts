@@ -1,6 +1,6 @@
 import { db } from "../index";
-import { InsertLink, linksTable } from "../schema";
+import { InsertLink, links } from "../schema";
 
 export async function createLink(link: InsertLink) {
-  return await db.insert(linksTable).values(link).returning({ id: linksTable.id });
+  return await db.insert(links).values(link).returning({ id: links.id });
 }
