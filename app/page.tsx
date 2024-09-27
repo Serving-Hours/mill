@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 
-import { nunito } from "./ui/fonts";
+import { nunito } from "@/app/ui/fonts";
+import { IconLink, IconClick, IconCopy } from "@tabler/icons-react";
+
 import Icon from "@/public/Icon.svg";
 import Github from "@/public/Github.svg";
-import HighlightScribble from "@/public/HighlightScribble.svg";
 import ArrowScribble from "@/public/ArrowScribble.svg";
-
-import { IconLink, IconClick, IconCopy } from "@tabler/icons-react";
+import HighlightScribble from "@/public/HighlightScribble.svg";
 
 export default function Home() {
   return (
