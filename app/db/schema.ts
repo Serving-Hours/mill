@@ -1,17 +1,28 @@
 import { integer, sqliteTable, text, primaryKey } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 import type { AdapterAccount } from "next-auth/adapters";
+import { sql } from "drizzle-orm";
 
 export const links = sqliteTable("links", {
-  id: text("id").primaryKey().$defaultFn(() => createId()),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
   url: text("url").notNull(),
-  slug: text("slug").unique().notNull()
+  slug: text("slug").unique().notNull(),
+
+  // Creation info
+  userId: text("userId")
+    // All links corresponding to a user will get deleted if the user gets deleted
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: text('created_at')
+    .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`)
+    .notNull(),
 });
 
 export const users = sqliteTable("user", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .$defaultFn(() => createId()),
   name: text("name"),
   email: text("email").unique(),
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),
