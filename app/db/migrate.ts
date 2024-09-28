@@ -1,7 +1,12 @@
-// import { migrate } from "drizzle-orm/libsql/migrator";
-// import { sqliteTable, text } from "drizzle-orm/sqlite-core";
-// import { db } from "./index";
+import { db } from '.';
+import { migrate } from 'drizzle-orm/libsql/migrator';
+import path from 'path';
 
-// export const migrateLinks = async () => {
-//   await db.sc
-// }
+(async () => {
+  console.log("Migrations Running");
+
+  const migrationsPath = path.resolve(__dirname, '../../migrations');
+  await migrate(db, { migrationsFolder: migrationsPath });
+
+  console.log("migrations success");
+})();
