@@ -16,10 +16,10 @@ export default function Home() {
         <nav className="flex justify-between items-center px-4 md:px-0 h-[88px] text-sm md:text-base">
           <Image src={Icon} alt="mill.sh" />
           <div className="flex gap-2">
-            <Link href="/" className="md:flex items-center px-3 hidden h-10 bg-[#EAEAEA] text-[#777777] font-semibold rounded-full">
+            <Link href="https://github.com/Serving-Hours/mill" className="md:flex items-center px-3 hidden h-10 bg-[#EAEAEA] text-[#777777] font-semibold rounded-full">
               GitHub
             </Link>
-            <Link href="/" className="flex items-center px-3 md:px-4 h-8 md:h-10 bg-[#181818] text-[#FAFAFA] font-semibold rounded-full">
+            <Link href="/login" className="flex items-center px-3 md:px-4 h-8 md:h-10 bg-[#181818] text-[#FAFAFA] font-semibold rounded-full">
               Log In
             </Link>
           </div>

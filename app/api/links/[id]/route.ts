@@ -23,6 +23,7 @@ export const GET = async (req: NextRequest, { params }: { params: { id: string; 
   }
 };
 
+// TODO: Delete a link
 // DELETE /api/links/:id
 // Delete a link
 export const DELETE = async (req: NextRequest, { params }: { params: { id: string; }; }) => {

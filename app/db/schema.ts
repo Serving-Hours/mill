@@ -9,14 +9,19 @@ export const links = sqliteTable("links", {
     .$defaultFn(() => createId()),
   url: text("url").notNull(),
   slug: text("slug").unique().notNull(),
+  expiresAt: text("expiresAt"),
+  expiresUrl: text("expiresUrl"),
 
   // Creation info
   userId: text("userId")
     // All links corresponding to a user will get deleted if the user gets deleted
     .references(() => users.id, { onDelete: "cascade" }),
-  createdAt: text('created_at')
-    .default(sql`(strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))`)
+  createdAt: text('createdAt')
+    .default(sql`(strftime('%Y-%m-%d %H:%M:%f', 'now'))`)
     .notNull(),
+  updatedAt: text("updatedAt")
+    .$onUpdate(() => sql`(strftime('%Y-%m-%d %H:%M:%f', 'now'))`)
+    .notNull()
 });
 
 export const users = sqliteTable("user", {
