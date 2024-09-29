@@ -1,17 +1,33 @@
 import { integer, sqliteTable, text, primaryKey } from "drizzle-orm/sqlite-core";
 import { createId } from "@paralleldrive/cuid2";
 import type { AdapterAccount } from "next-auth/adapters";
+import { sql } from "drizzle-orm";
 
 export const links = sqliteTable("links", {
-  id: text("id").primaryKey().$defaultFn(() => createId()),
+  id: text("id")
+    .primaryKey()
+    .$defaultFn(() => createId()),
   url: text("url").notNull(),
-  slug: text("slug").unique().notNull()
+  slug: text("slug").unique().notNull(),
+  expiresAt: text("expiresAt"),
+  expiresUrl: text("expiresUrl"),
+
+  // Creation info
+  userId: text("userId")
+    // All links corresponding to a user will get deleted if the user gets deleted
+    .references(() => users.id, { onDelete: "cascade" }),
+  createdAt: text('createdAt')
+    .default(sql`(strftime('%Y-%m-%d %H:%M:%f', 'now'))`)
+    .notNull(),
+  updatedAt: text("updatedAt")
+    .$onUpdate(() => sql`(strftime('%Y-%m-%d %H:%M:%f', 'now'))`)
+    .notNull()
 });
 
 export const users = sqliteTable("user", {
   id: text("id")
     .primaryKey()
-    .$defaultFn(() => crypto.randomUUID()),
+    .$defaultFn(() => createId()),
   name: text("name"),
   email: text("email").unique(),
   emailVerified: integer("emailVerified", { mode: "timestamp_ms" }),

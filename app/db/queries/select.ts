@@ -14,3 +14,7 @@ export async function getLinkById(id: string): Promise<SelectLink | undefined> {
 export async function getLinkBySlug(slug: string): Promise<SelectLink | undefined> {
   return await db.select().from(links).where(eq(links.slug, slug)).get();
 };
+
+export async function getLinksByUserId(userId: string): Promise<SelectLink[] | undefined> {
+  return await db.select().from(links).where(eq(links.userId, userId));
+}

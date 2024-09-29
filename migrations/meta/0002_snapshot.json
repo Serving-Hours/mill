@@ -1,8 +1,8 @@
 {
   "version": "6",
   "dialect": "sqlite",
-  "id": "0de9bbe7-c830-4b11-ba9d-7c5894bc74cb",
-  "prevId": "70a6cfd8-e7a7-44b7-b47e-565b2af341ed",
+  "id": "d714c2d2-d948-493e-85e8-b68e62b03b8f",
+  "prevId": "0de9bbe7-c830-4b11-ba9d-7c5894bc74cb",
   "tables": {
     "account": {
       "name": "account",
@@ -207,8 +207,8 @@
       },
       "uniqueConstraints": {}
     },
-    "links_temp": {
-      "name": "links_temp",
+    "links": {
+      "name": "links",
       "columns": {
         "id": {
           "name": "id",
@@ -231,6 +231,20 @@
           "notNull": true,
           "autoincrement": false
         },
+        "expiresAt": {
+          "name": "expiresAt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
+        "expiresUrl": {
+          "name": "expiresUrl",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": false,
+          "autoincrement": false
+        },
         "userId": {
           "name": "userId",
           "type": "text",
@@ -238,18 +252,25 @@
           "notNull": false,
           "autoincrement": false
         },
-        "created_at": {
-          "name": "created_at",
+        "createdAt": {
+          "name": "createdAt",
           "type": "text",
           "primaryKey": false,
           "notNull": true,
           "autoincrement": false,
           "default": "(strftime('%Y-%m-%d %H:%M:%f', 'now'))"
+        },
+        "updatedAt": {
+          "name": "updatedAt",
+          "type": "text",
+          "primaryKey": false,
+          "notNull": true,
+          "autoincrement": false
         }
       },
       "indexes": {
-        "links_temp_slug_unique": {
-          "name": "links_temp_slug_unique",
+        "links_slug_unique": {
+          "name": "links_slug_unique",
           "columns": [
             "slug"
           ],
@@ -257,9 +278,9 @@
         }
       },
       "foreignKeys": {
-        "links_temp_userId_user_id_fk": {
-          "name": "links_temp_userId_user_id_fk",
-          "tableFrom": "links_temp",
+        "links_userId_user_id_fk": {
+          "name": "links_userId_user_id_fk",
+          "tableFrom": "links",
           "tableTo": "user",
           "columnsFrom": [
             "userId"
