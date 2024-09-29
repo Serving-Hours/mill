@@ -1,10 +1,10 @@
 "use client";
 
+import { User } from "@/lib/types";
 import Link from "next/link";
-
 import { motion } from "framer-motion";
 import { useState } from "react";
-
+import { signOut } from "next-auth/react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -13,8 +13,10 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
+import { IconLogout, IconMail, IconSettings } from "@tabler/icons-react";
 
-export default function NavTab() {
+export default function NavTab({ user }: { user: User | null; }) {
   let tabs = [
     { id: "links", label: "Links" },
     { id: "analytics", label: "Analytics" },
@@ -31,10 +33,8 @@ export default function NavTab() {
             key={tab.id}
             href={`/dashboard/${tab.id}`}
             onClick={() => setActiveTab(tab.id)}
-            className={
-              `${activeTab === tab.id ? "text-black" : "text-gray-500"} 
-              h-[40px] relative rounded-xl px-3 py-1.5 font-medium transition focus-visible:outline-2`
-            }
+            className={`${activeTab === tab.id ? "text-[#181818]" : "text-gray-500"
+              } h-[40px] relative rounded-xl px-3 py-1.5 font-medium transition focus-visible:outline-2`}
           >
             {activeTab === tab.id && (
               <motion.span
@@ -48,18 +48,33 @@ export default function NavTab() {
           </Link>
         ))}
       </div>
-      {/* TODO: Use session to define user action here */}
-      {/* NOTE: We don't want repetitive usage of session as well */}
+      {/* TODO: Isolate the user profile dropdown */}
+      {/* TODO: Customize from the source instead */}
       <DropdownMenu>
-        <DropdownMenuTrigger>
-          <div className="h-10 w-10 bg-[#F0F0F0] rounded-full"></div>
+        <DropdownMenuTrigger className="rounded-full select-none overflow-clip">
+          {user?.image && (
+            <Image src={user.image} alt={user.name || 'User'} width={40} height={40} />
+          )}
         </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuLabel>My Account</DropdownMenuLabel>
+        <DropdownMenuContent align="end" className="w-[160px] rounded-xl">
+          <DropdownMenuLabel>{user?.name || 'My Account'}</DropdownMenuLabel>
           <DropdownMenuSeparator />
-          <DropdownMenuItem>Settings</DropdownMenuItem>
-          <DropdownMenuItem>Feedback</DropdownMenuItem>
-          <DropdownMenuItem>Profile</DropdownMenuItem>
+          <DropdownMenuItem className="flex gap-2 font-medium">
+            <IconSettings size={20} strokeWidth={1.75} />
+            <span >Settings</span>
+          </DropdownMenuItem>
+          <DropdownMenuItem className="flex gap-2 font-medium">
+            <IconMail size={20} strokeWidth={1.75} />
+            <span>Feedback</span>
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="flex gap-2 text-red-500 font-medium focus:bg-red-50 focus:text-red-500"
+          >
+            <IconLogout size={20} strokeWidth={1.75} />
+            <span>Sign Out</span>
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
