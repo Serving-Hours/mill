@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { createLink } from "@/app/db/queries/insert";
 import { CreateLinkSchema } from "@/lib/validation/links";
 import { getLinkBySlug, getLinksByUserId } from "@/app/db/queries/select";
-import { authConfig } from "@/lib/auth/auth.config";
+import { authConfig } from "@/lib/auth/config";
 
 // GET /api/links
 // Retrieve all links

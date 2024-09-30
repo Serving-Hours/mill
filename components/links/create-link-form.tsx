@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/dialog";
 
 // NOTE: For now anonymous link creation through form is disabled
-export default function CreateLinkForm({ userId }: { userId: string; }) {
+export default function CreateLinkForm({ userId }: { userId?: string; }) {
   return (
     <form action={createLinkAction}>
       <div className="grid gap-4 py-4 font-medium">

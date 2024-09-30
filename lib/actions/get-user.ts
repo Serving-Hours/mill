@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth";
-import { authConfig } from "@/lib/auth/auth.config";
+import { authConfig } from "@/lib/auth/config";
 
 export const getUser = async () => {
   const session = await getServerSession(authConfig);

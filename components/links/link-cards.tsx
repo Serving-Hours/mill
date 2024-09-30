@@ -3,8 +3,8 @@ import { nunito } from "@/app/ui/fonts";
 import { IconCopy } from "@tabler/icons-react";
 import Link from "next/link";
 
-export default async function LinkCards({ userId }: { userId: string; }) {
-  const links = await getLinksByUserId(userId);
+export default async function LinkCards({ userId }: { userId?: string; }) {
+  const links = await getLinksByUserId(userId!);
 
   return (
     <div className="grid gap-4 md:grid-cols-2 mb-8">
@@ -16,7 +16,10 @@ export default async function LinkCards({ userId }: { userId: string; }) {
           </div>
           <Link target="_blank" href={link.url} className={`${nunito.className} text-lg`}>{`localhost:3000/${link.slug}`}</Link>
           <p className="font-medium text-sm truncate text-[#777777] mb-6">{link.url}</p>
-          <button className="flex items-center p-3 h-[32px] w-fit bg-[#EAEAEA] text-[#777777] font-semibold rounded-full">Edit</button>
+          <div className="flex gap-2">
+            <button className="flex items-center p-3 h-[32px] w-fit bg-[#EAEAEA] text-[#777777] font-semibold rounded-full">Edit</button>
+            <button className="flex items-center p-3 h-[32px] w-fit bg-red-100 text-red-400 font-semibold rounded-full">Delete</button>
+          </div>
         </div>
       ))}
     </div>
