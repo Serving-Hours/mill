@@ -1,9 +1,9 @@
 // TODO : if its posible , use serverside
 import { getUser } from "@/lib/actions/get-user";
 import { Toaster } from "@/components/ui/sonner";
-import NavTab from "@/components/link/nav-tab";
+import NavTab from "@/components/link-detail/nav-tab";
 import Image from "next/image";
-import LinkTitle from "@/components/link/link-title";
+import LinkTitle from "@/components/link-detail/link-title";
 
 
 export default async function layout({
