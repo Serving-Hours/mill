@@ -4,12 +4,12 @@ import { getServerSession } from "next-auth";
 
 import { createLink } from "@/app/db/queries/insert";
 import { CreateLinkSchema } from "@/lib/validation/links";
-import { getLinks, getLinkBySlug, getLinksByUserId } from "@/app/db/queries/select";
+import { getLinkBySlug, getLinksByUserId } from "@/app/db/queries/select";
 import { authConfig } from "@/lib/auth/auth.config";
 
 // GET /api/links
 // Retrieve all links
-export async function GET(req: NextRequest) {
+export async function GET() {
   try {
     const session = await getServerSession(authConfig);
 

@@ -1,9 +1,7 @@
 import { getLinksByUserId } from "@/app/db/queries/select";
 import { nunito } from "@/app/ui/fonts";
-import { getUser } from "@/lib/actions/get-user";
 import { IconCopy } from "@tabler/icons-react";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
 export default async function LinkCards({ userId }: { userId: string; }) {
   const links = await getLinksByUserId(userId);
