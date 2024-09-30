@@ -1,42 +1,7 @@
 import { NextResponse, NextRequest } from "next/server";
-
-import { getServerSession } from "next-auth";
-
 import { createLink } from "@/app/db/queries/insert";
 import { CreateLinkSchema } from "@/lib/validation/links";
-import { getLinks, getLinkBySlug, getLinksByUserId } from "@/app/db/queries/select";
-import { authConfig } from "@/lib/auth/auth.config";
-
-// GET /api/links
-// Retrieve all links
-export async function GET(req: NextRequest) {
-  try {
-    const session = await getServerSession(authConfig);
-
-    // console.log(session);
-
-    if (!session?.user) {
-      return NextResponse.json({
-        message: "Unauthorized"
-      }, { status: 401 });
-    };
-
-    const user = session.user;
-    const links = await getLinksByUserId(user.id);
-
-    if (!links) {
-      return NextResponse.json({
-        message: "Cannot find link"
-      }, { status: 400 });
-    }
-
-    return NextResponse.json({ links }, { status: 200 });
-  } catch (err) {
-    return NextResponse.json({
-      message: err
-    }, { status: 500 });
-  }
-}
+import { getLinkBySlug } from "@/app/db/queries/select";
 
 // POST /api/links
 // Create a link

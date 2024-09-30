@@ -17,13 +17,12 @@ import Image from "next/image";
 import { IconLogout, IconMail, IconSettings } from "@tabler/icons-react";
 
 export default function NavTab({ user }: { user: User | null; }) {
-  let tabs = [
+  const tabs = [
     { id: "links", label: "Links" },
     { id: "analytics", label: "Analytics" },
     { id: "events", label: "Events" },
   ];
-
-  let [activeTab, setActiveTab] = useState(tabs[0].id);
+  const [activeTab, setActiveTab] = useState(tabs[0].id);
 
   return (
     <div className="flex justify-between mt-6 items-center">
