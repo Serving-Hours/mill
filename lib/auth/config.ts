@@ -25,31 +25,33 @@ export const authConfig = {
       clientSecret: process.env.GITHUB_SECRET!,
     }),
   ],
+  session: {
+    strategy: 'jwt',
+  },
+  secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    async session({ session }) {
-      if (!session.user.email) return session;
+    async session({ session, token }) {
+      // if (!session.user.email) return session;
 
-      const results = await db
-        .select({
-          id: users.id,
-        })
-        .from(users)
-        .where(eq(users.email, session.user.email));
+      // const results = await db
+      //   .select({
+      //     id: users.id,
+      //   })
+      //   .from(users)
+      //   .where(eq(users.email, session.user.email));
 
-      if (results.length === 0) return session;
+      // if (results.length === 0) return session;
 
-      session.user.id = results[0].id;
+      // session.user.id = results[0].id;
 
       // console.log(session);
 
+      session.user.id = token.sub!;
       return session;
     },
-    async signIn({ profile }) {
-      console.log(profile);
-      return true;
-    },
-  },
-  session: {
-    strategy: 'jwt',
+    // async signIn({ profile }) {
+    //   console.log(profile);
+    //   return true;
+    // },
   },
 } satisfies NextAuthOptions;
