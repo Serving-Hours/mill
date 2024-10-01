@@ -1,41 +1,48 @@
 // TODO : if its posible , use serverside
 import { getUser } from "@/lib/actions/get-user";
 import { Toaster } from "@/components/ui/sonner";
-import NavTab from "@/components/link-detail/nav-tab";
-import Image from "next/image";
-import LinkTitle from "@/components/link-detail/link-title";
+import LinkTitle from "@/components/links/link-title";
+import NavTab from "@/components/dashboard/nav-tab";
+import UserProfile from "@/components/dashboard/user-profile";
+
+import { LinkProvider } from "@/lib/context/link-provider";
+import { getLinkById } from "@/app/db/queries/select";
+import { notFound } from "next/navigation";
 
 
 export default async function layout({
-    children,
+  children,
+  params
 }: Readonly<{
-    children: React.ReactNode;
+  children: React.ReactNode;
+  params: { id: string; };
 }>) {
-    const user = await getUser();
+  const user = await getUser();
+  const link = await getLinkById(params.id);
 
+  if (!link) {
+    notFound();
+  }
 
-    return (
-        <main className="w-[640px] mx-auto px-4 md:px-0 relative">
-            {/* Kepala  */}
-            <div className="flex justify-between item-center py-7">
-                
-                <LinkTitle />
-                <div className="flex items-center gap-2">
-                    <span className="font-bold text-lg text-[#A3A3A3]">Settings</span>
-                    <div className="rounded-full select-none overflow-clip">
-                        {user?.image && (
-                            <Image src={user.image} alt={user.name || 'User'} width={40} height={40} />
-                        )}
-                    </div>
+  const tabs = [
+    { id: 0, label: "Edit", destination: `/link/${link.id}/edit` },
+    { id: 1, label: "Analytics", destination: `/link/${link.id}/analytics` },
+    { id: 2, label: "Events", destination: `/link/${link.id}/events` },
+  ];
 
-                </div>
-            </div>
-            <NavTab />
-
-            <div className=" mt-8">
-                {children}
-            </div>
-            <Toaster />
-        </main>
-    );
+  return (
+    <LinkProvider link={link}>
+      <main className="w-[640px] mx-auto px-4 md:px-0">
+        <div className="flex justify-between item-center mt-6 mb-8">
+          <LinkTitle />
+          <UserProfile user={user} />
+        </div>
+        <NavTab tabs={tabs} />
+        <div className=" mt-8">
+          {children}
+        </div>
+        <Toaster />
+      </main>
+    </LinkProvider>
+  );
 };

@@ -3,6 +3,7 @@ import { createId } from "@paralleldrive/cuid2";
 import type { AdapterAccount } from "next-auth/adapters";
 import { sql } from "drizzle-orm";
 
+// Note: When updating this don't forget to update the type at @/lib/types
 export const links = sqliteTable("links", {
   id: text("id")
     .primaryKey()
