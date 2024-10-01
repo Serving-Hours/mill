@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { IconChevronLeft } from "@tabler/icons-react";
-import { useLink } from "@/lib/context/LinkProvider";
+import { useLink } from "@/lib/context/link-provider";
 
 export default function LinkTitle() {
   const link = useLink();

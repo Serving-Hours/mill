@@ -5,7 +5,7 @@ import LinkTitle from "@/components/links/link-title";
 import NavTab from "@/components/dashboard/nav-tab";
 import UserProfile from "@/components/dashboard/user-profile";
 
-import { LinkProvider } from "@/lib/context/LinkProvider";
+import { LinkProvider } from "@/lib/context/link-provider";
 import { getLinkById } from "@/app/db/queries/select";
 import { notFound } from "next/navigation";
 

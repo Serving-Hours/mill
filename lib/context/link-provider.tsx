@@ -1,7 +1,7 @@
 "use client";
 
-import { createContext, useContext, ReactNode } from 'react';
-import { Link } from '@/lib/types';
+import { createContext, useContext, ReactNode } from "react";
+import { Link } from "@/lib/types";
 
 const LinkContext = createContext<Link | null>(null);
 
@@ -11,8 +11,11 @@ export function LinkProvider({ children, link }: { children: ReactNode; link: Li
 
 export function useLink() {
   const context = useContext(LinkContext);
+
+  // TODO: Handle error
   if (!context) {
-    throw new Error('useLink must be used within a LinkProvider');
+    throw new Error("Must be used withing a Link Provider.");
   }
+
   return context;
 }

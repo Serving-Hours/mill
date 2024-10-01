@@ -3,7 +3,7 @@
 import { inter, nunito } from "@/app/ui/fonts";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
-import { useLink } from "@/lib/context/LinkProvider";
+import { useLink } from "@/lib/context/link-provider";
 
 // todo : undo change to form 
 // todo : seperate hooks into different gile hook.ts
