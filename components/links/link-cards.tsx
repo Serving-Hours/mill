@@ -21,7 +21,7 @@ export default async function LinkCards({ userId }: { userId?: string; }) {
           <Link target="_blank" href={link.url} className={`${nunito.className} text-lg`}>{`localhost:3000/${link.slug}`}</Link>
           <p className="font-medium text-sm truncate text-[#777777] mb-6">{link.url}</p>
           <div className="flex gap-2">
-            <Link href={`/link/${link.id}/open`} className="flex items-center p-3 h-[32px] w-fit bg-[#EAEAEA] text-[#777777] font-semibold rounded-full">Edit</Link>
+            <Link href={`/link/${link.id}/edit`} className="flex items-center p-3 h-[32px] w-fit bg-[#EAEAEA] text-[#777777] font-semibold rounded-full">Edit</Link>
             <DeleteLinkButton linkId={link.id} />
           </div>
         </div>
