@@ -4,15 +4,19 @@ import { inter, nunito } from "@/app/ui/fonts";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
 import { useLink } from "@/lib/context/link-provider";
+import { updateLinkAction } from "@/lib/actions/links/update-link";
+import SaveLinkButton from "@/components/links/save-link-button";
 
-// todo : undo change to form 
+// todo : undo change to form
 // todo : seperate hooks into different gile hook.ts
 export default function Page() {
   const [isChecked, setIsChecked] = useState<boolean>(true);
   const link = useLink();
+  const [isEdited, setIsEdited] = useState<boolean>(false);
+  const updateLink = updateLinkAction.bind(null, link.id);
 
   return (
-    <form>
+    <form onChange={() => setIsEdited(true)} action={updateLink}>
       <div className="grid gap-4 py-4 font-medium">
         <div className="grid gap-2">
           <label htmlFor="destination" className="text-left text-[#575757]">
@@ -43,7 +47,9 @@ export default function Page() {
             />
           </div>
           <div className=" mt-16 mb-6">
-            <div className={`flex justify-between items-center ${nunito.className} `}>
+            <div
+              className={`flex justify-between items-center ${nunito.className} `}
+            >
               <label className="font-bold text-xl" htmlFor="airplane-mode">
                 Link Expiration
               </label>
@@ -55,38 +61,52 @@ export default function Page() {
                 onCheckedChange={setIsChecked}
               />
             </div>
-            <p className={`text-[#A3A3A3] text-base font-medium ${inter.className}`}>Set an expiration date for your links – after which it won't be accessible.</p>
+            <p
+              className={`text-[#A3A3A3] text-base font-medium ${inter.className}`}
+            >
+              Set an expiration date for your links – after which it won't be
+              accessible.
+            </p>
           </div>
           <div className="flex gap-2">
             <div className="grid gap-2 w-full">
-              <label htmlFor="expiration-url" className={`text-left ${isChecked ? " text-[#575757]" : "text-[#A3A3A3]"}`}>
-                Destination URL
+              <label
+                htmlFor="expiration-url"
+                className={`text-left ${isChecked ? " text-[#575757]" : "text-[#A3A3A3]"}`}
+              >
+                URL Expiration Date
               </label>
               <input
-                id="expireUrl"
-                name="expireUrl"
+                id="expiresAt"
+                name="expiresAt"
                 placeholder="https://your.app/home"
-                className="w-full p-3 h-[40px] bg-[#F0F0F0] rounded-xl placeholder-[#A3A3A3] disabled:cursor-not-allowed"
+                className="w-full p-3 h-[40px] bg-[#F0F0F0] rounded-xl placeholder-[#A3A3A3] disabled:cursor-not-allowed disabled:text-[#A3A3A3]"
                 required
-                type="url"
+                type="date"
                 defaultValue={link.expiresUrl || ""}
                 disabled={!isChecked}
               />
             </div>
             <div className="grid gap-2 w-full">
-              <label htmlFor="fallback" className={`text-left ${isChecked ? " text-[#575757]" : "text-[#A3A3A3]"}`}>
+              <label
+                htmlFor="fallback"
+                className={`text-left ${isChecked ? " text-[#575757]" : "text-[#A3A3A3]"}`}
+              >
                 Fallback url
               </label>
               <input
-                id="fallback"
-                name="fallback"
+                id="expiresUrl"
+                name="expiresUrl"
                 placeholder="serve"
-                className="w-full p-3 h-[40px] bg-[#F0F0F0] rounded-xl placeholder-[#A3A3A3] disabled:cursor-not-allowed"
+                className="w-full p-3 h-[40px] bg-[#F0F0F0] rounded-xl placeholder-[#A3A3A3] disabled:cursor-not-allowed disabled:text-[#A3A3A3]"
                 required
                 type="url"
                 disabled={!isChecked}
               />
             </div>
+          </div>
+          <div className="flex w-full justify-end mt-16">
+            <SaveLinkButton isEdited={isEdited} />
           </div>
         </div>
       </div>
