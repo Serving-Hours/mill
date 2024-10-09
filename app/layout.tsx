@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import Providers from "./providers";
+import { SessionProviders } from "./providers";
 
 import "./globals.css";
 import { inter } from "@/app/ui/fonts";
@@ -17,12 +17,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${inter.className} antialiased`}
-      >
-        <Providers>
-          {children}
-        </Providers>
+      <body className={`${inter.className} antialiased`}>
+        <SessionProviders>{children}</SessionProviders>
       </body>
     </html>
   );

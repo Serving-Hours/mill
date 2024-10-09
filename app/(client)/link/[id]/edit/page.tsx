@@ -3,14 +3,14 @@
 import { inter, nunito } from "@/app/ui/fonts";
 import { Switch } from "@/components/ui/switch";
 import { useState } from "react";
-import { useLink } from "@/lib/context/link-provider";
+import { useLink } from "@/app/providers";
 import { updateLinkAction } from "@/lib/actions/links/update-link";
-import SaveLinkButton from "@/components/links/save-link-button";
+import SaveLinkButton from "@/components/link-save";
 
 // todo : undo change to form
 // todo : seperate hooks into different gile hook.ts
 export default function Page() {
-  const [isChecked, setIsChecked] = useState<boolean>(true);
+  const [isChecked, setIsChecked] = useState<boolean>(false);
   const link = useLink();
   const [isEdited, setIsEdited] = useState<boolean>(false);
   const updateLink = updateLinkAction.bind(null, link.id);
@@ -64,8 +64,8 @@ export default function Page() {
             <p
               className={`text-[#A3A3A3] text-base font-medium ${inter.className}`}
             >
-              Set an expiration date for your links – after which it won't be
-              accessible.
+              Set an expiration date for your links - after which it won&apos;t
+              be accessible.
             </p>
           </div>
           <div className="flex gap-2">
