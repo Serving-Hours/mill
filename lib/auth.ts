@@ -1,24 +1,22 @@
 import type { NextAuthOptions } from "next-auth";
 import { DrizzleAdapter } from "@auth/drizzle-adapter";
-import { db } from "@/app/db";
+import { db } from "@/db";
 import { Adapter } from "next-auth/adapters";
 import GoogleProvider from "next-auth/providers/google";
 import GitHubProvider from "next-auth/providers/github";
 import { config } from "dotenv";
-import { users } from "@/app/db/schema";
-import { eq } from "drizzle-orm";
 
 config({ path: ".env" });
 
-export const authConfig = {
+export const authOptions = {
   adapter: DrizzleAdapter(db) as Adapter,
   pages: {
-    signIn: "/login"
+    signIn: "/login",
   },
   providers: [
     GoogleProvider({
       clientId: process.env.AUTH_GOOGLE_ID!,
-      clientSecret: process.env.AUTH_GOOGLE_SECRET!
+      clientSecret: process.env.AUTH_GOOGLE_SECRET!,
     }),
     GitHubProvider({
       clientId: process.env.GITHUB_ID!,
@@ -26,32 +24,31 @@ export const authConfig = {
     }),
   ],
   session: {
-    strategy: 'jwt',
+    strategy: "jwt",
   },
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
     async session({ session, token }) {
-      // if (!session.user.email) return session;
-
-      // const results = await db
-      //   .select({
-      //     id: users.id,
-      //   })
-      //   .from(users)
-      //   .where(eq(users.email, session.user.email));
-
-      // if (results.length === 0) return session;
-
-      // session.user.id = results[0].id;
-
-      // console.log(session);
-
       session.user.id = token.sub!;
       return session;
     },
-    // async signIn({ profile }) {
-    //   console.log(profile);
-    //   return true;
+    // async jwt({ token, user }) {
+    //   // const user = getUserByEmail(email)
+    //   const dbUser = await getUserByEmail(token.email!);
+
+    //   if (!dbUser) {
+    //     if (user) {
+    //       token.id = user?.id;
+    //     }
+    //     return token;
+    //   }
+
+    //   return {
+    //     id: dbUser.id,
+    //     name: dbUser.name,
+    //     email: dbUser.email,
+    //     picture: dbUser.image,
+    //   };
     // },
   },
 } satisfies NextAuthOptions;

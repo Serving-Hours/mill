@@ -1,9 +1,10 @@
 "use client";
 
-import { User } from "@/lib/types";
+import { User } from "next-auth";
 import { signOut } from "next-auth/react";
+
 import Image from "next/image";
-import { IconLogout, IconMail, IconSettings } from "@tabler/icons-react";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,27 +13,31 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { IconLogout, IconMail, IconSettings } from "@tabler/icons-react";
 
-type UserProfileProps = {
-  user: User | null;
-};
+interface UserProfileProps extends React.HTMLAttributes<HTMLDivElement> {
+  user: Pick<User, "name" | "image" | "email">;
+}
 
 export default function UserProfile({ user }: UserProfileProps) {
   return (
     <DropdownMenu>
-      {/* TODO: Isolate the user profile dropdown */}
-      {/* TODO: Customize from the source instead */}
       <DropdownMenuTrigger className="rounded-full select-none overflow-clip">
         {user?.image && (
-          <Image src={user.image} alt={user.name || 'User'} width={40} height={40} />
+          <Image
+            src={user.image}
+            alt={user.name || "User"}
+            width={40}
+            height={40}
+          />
         )}
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="w-[160px] rounded-xl">
-        <DropdownMenuLabel>{user?.name || 'My Account'}</DropdownMenuLabel>
+        <DropdownMenuLabel>{user?.name || "My Account"}</DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="flex gap-2 font-medium">
           <IconSettings size={20} strokeWidth={1.75} />
-          <span >Settings</span>
+          <span>Settings</span>
         </DropdownMenuItem>
         <DropdownMenuItem className="flex gap-2 font-medium">
           <IconMail size={20} strokeWidth={1.75} />

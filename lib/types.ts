@@ -1,4 +1,4 @@
-import { SelectLink } from "@/app/db/schema";
+import { SelectLink } from "@/db/schema";
 
 export type User = {
   id: string;

@@ -1,15 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { useMemo } from "react";
+import { usePathname } from "next/navigation";
 
-type NavTabProps = {
-  tabs: { id: number, label: string, destination: string; }[];
-};
+import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
+
+interface NavTabProps {
+  tabs: { id: number; label: string; destination: string }[];
+}
 
 export default function NavTab({ tabs }: NavTabProps) {
-  const [activeTab, setActiveTab] = useState(tabs[0].id);
+  const pathname = usePathname();
+
+  const activeTab = useMemo(() => {
+    return tabs.find((tab) => pathname.startsWith(tab.destination))?.id;
+  }, [pathname, tabs]);
 
   return (
     <div className="space-x-1">
@@ -17,9 +24,10 @@ export default function NavTab({ tabs }: NavTabProps) {
         <Link
           key={tab.id}
           href={tab.destination}
-          onClick={() => setActiveTab(tab.id)}
-          className={`${activeTab === tab.id ? "text-[#181818]" : "text-gray-500"
-            } h-[40px] relative rounded-xl px-3 py-1.5 font-medium transition focus-visible:outline-2`}
+          className={cn(
+            "h-[40px] relative rounded-xl px-3 py-1.5 font-medium transition focus-visible:outline-2",
+            activeTab === tab.id ? "text-[#181818]" : "text-gray-500",
+          )}
         >
           {activeTab === tab.id && (
             <motion.span

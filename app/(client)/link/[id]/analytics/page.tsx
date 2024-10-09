@@ -1,3 +1,3 @@
-export default function Page(){
-    return <div>hello analytics page</div>
+export default function Page() {
+  return <div>hello analytics page</div>;
 }
