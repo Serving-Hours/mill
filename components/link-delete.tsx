@@ -1,7 +1,7 @@
-"use client"; // Marks this as a client component
+"use client";
 
 import { useTransition } from "react";
-import { deleteLinkAction } from "@/lib/actions/links/delete-link";
+import { deleteLinkAction } from "@/lib/actions";
 import { useState } from "react";
 import { LoaderIcon } from "lucide-react";
 import { toast } from "sonner";
@@ -16,22 +16,27 @@ function DeletingMessage() {
   );
 }
 
-export default function DeleteLinkButton({ linkId }: { linkId: string; }) {
+export default function DeleteLinkButton({ linkId }: { linkId: string }) {
   const [isPending, startTransition] = useTransition();
   const [isDeleting, setIsDeleting] = useState(false);
 
   const handleDelete = () => {
     setIsDeleting(true);
     startTransition(async () => {
-      await deleteLinkAction(linkId);
+      const result = await deleteLinkAction(linkId);
       setIsDeleting(false);
+
+      toast(
+        <div className="flex items-center gap-1">
+          {result.success ? (
+            <IconTrash size={20} strokeWidth={1.75} className="text-red-500" />
+          ) : (
+            <IconTrash size={20} strokeWidth={1.75} className="text-red-500" />
+          )}
+          <span className="font-medium">{result.message}</span>
+        </div>,
+      );
     });
-    toast(
-      <div className="flex items-center gap-1">
-        <IconTrash size={20} strokeWidth={1.75} className="text-red-500" />
-        <span className="font-medium">Successfully deleted link</span>
-      </div>
-    );
   };
 
   return (

@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { updateLinkById } from "@/app/db/queries/update";
+import { updateLinkById } from "@/db/queries/update";
 import { UpdateLinkSchema } from "@/lib/validation/links";
 
 // PUT /api/links/:id

@@ -1,26 +1,29 @@
-// TODO : if its posible , use serverside
-import { getUser } from "@/lib/actions/get-user";
-import { Toaster } from "@/components/ui/sonner";
-import LinkTitle from "@/components/links/link-title";
-import NavTab from "@/components/dashboard/nav-tab";
-import UserProfile from "@/components/dashboard/user-profile";
-
-import { LinkProvider } from "@/lib/context/link-provider";
-import { getLinkById } from "@/app/db/queries/select";
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 
+import { getCurrentUser } from "@/lib/session";
+import { getLinkById } from "@/db/queries/select";
+import { LinkProvider } from "@/app/providers";
+
+import NavTab from "@/components/nav-tab";
+import { Toaster } from "@/components/ui/sonner";
+import UserProfile from "@/components/user-profile";
+import AnimatedPage from "@/components/animated-page";
+import LinkTitle from "@/components/link-title";
 
 export default async function layout({
   children,
-  params
+  params,
 }: Readonly<{
   children: React.ReactNode;
-  params: { id: string; };
+  params: { id: string };
 }>) {
-  const user = await getUser();
-  const link = await getLinkById(params.id);
+  const [user, link] = await Promise.all([
+    getCurrentUser(),
+    getLinkById(params.id),
+  ]);
 
-  if (!link) {
+  if (!link || !user) {
     notFound();
   }
 
@@ -35,14 +38,16 @@ export default async function layout({
       <main className="w-[640px] mx-auto px-4 md:px-0">
         <div className="flex justify-between item-center mt-6 mb-8">
           <LinkTitle />
-          <UserProfile user={user} />
+          <Suspense fallback={<p>Loading...</p>}>
+            <UserProfile user={user} />
+          </Suspense>
         </div>
         <NavTab tabs={tabs} />
         <div className=" mt-8">
-          {children}
+          <AnimatedPage>{children}</AnimatedPage>
         </div>
         <Toaster />
       </main>
     </LinkProvider>
   );
-};
+}
